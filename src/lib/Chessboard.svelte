@@ -3,23 +3,21 @@ TODO:
  - Better alt for img
  - Fix out-of-board shadow bug
  - Use more Tailwind
+ - Get images to work
+ - Add logic
 -->
 <script>
 	import { onMount } from 'svelte';
+	import { fenToArrayOfSquares } from './fenParser.ts';
 
 	export let size = 16,
 		squareSize = 42,
-		boardPos = '';
-
-	let buildState = [];
-	if (boardPos.length > 0) {
-		for (let i = 0; i < boardPos.length - 1; i++) {
-			if (boardPos[i] == '-') continue;
-			buildState.push(
-				Object.keys(import.meta.glob(`./assets/pieces/${boardPos[i] + boardPos[i + 1]}.*`))[0]
-			);
-		}
-	}
+		boardState = null;
+	const PIECES = Object.keys(import.meta.glob('./assets/pieces/*.{png,svg,jpg}')); // TODO: manual
+	$: buildState = fenToArrayOfSquares(
+		boardState ?? `${size}/`.repeat(size).slice(0, -1) + ' w KQkq - 0 1'
+	);
+	$: console.log(boardState, buildState);
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
@@ -28,16 +26,11 @@ TODO:
 		throw new Error('Size is too small (must be between 1 and 26)');
 	}
 
-	const PIECES = Object.keys(import.meta.glob('./assets/pieces/*.{png,svg,jpg}'));
-
 	const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	$: RANKS = Array(size)
-		.fill()
+	$: RANKS = Array.from(Array(size).keys())
 		.map((_, i) => i + 1)
 		.reverse();
-	$: FILES = Array(size)
-		.fill()
-		.map((_, i) => ALPHABET[i]);
+	$: FILES = Array.from(Array(size).keys()).map((_, i) => ALPHABET[i]);
 
 	let chessboard;
 
@@ -67,39 +60,61 @@ TODO:
 			if (target.children.length > 1) {
 				target.removeChild(target.children[1]);
 			}
+			let buildBoardState = [];
+			chessboard.querySelectorAll('.rank').forEach((rank) => {
+				let temp = [];
+				rank.querySelectorAll('.square').forEach((square) => {
+					let img = square.querySelector('img');
+					if (img == undefined) {
+						if (typeof temp[temp.length - 1] === 'number') {
+							temp[temp.length - 1] += 1;
+						} else {
+							temp.push(1);
+						}
+					} else {
+						let src = img.getAttribute('src');
+						src = src.slice(23, 25);
+						if (src[0] == 'w') {
+							temp.push(src[1].toUpperCase());
+						} else {
+							temp.push(src[1].toLowerCase());
+						}
+					}
+				});
+				buildBoardState.push(temp.join(''));
+			});
+			boardState = buildBoardState.join('/') + ' w KQkq - 0 1';
 		});
 	});
 </script>
 
 <div bind:this={chessboard}>
-	<div>
+	<div class="pt-2">
 		{#each RANKS as rank}
 			<div data-rank={rank} class="rank">
 				{#each FILES as file, i}
+					{@const buildMe = buildState.shift()}
 					<div
 						id="{file}{rank}"
 						class:light-square={i % 2 == rank % 2}
 						class:dark-square={i % 2 != rank % 2}
 						class="square"
 					>
-						{#if buildState.length > 0 && buildState[0] != '-'}
-							<img
-								alt="A chess piece"
-								src="/src/lib/{buildState.shift()}"
-								class="inline-block piece"
-							/>
+						{#if buildMe != undefined}
+							<img alt="A chess piece" src="/src/lib{buildMe}" class="inline-block piece" />
 						{/if}
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
+
 	<div class="file-labels">
 		{#each FILES as file}<span>{file}</span>{/each}
 	</div>
 	<div id="piece-tray">
 		{#each PIECES as piece}
-			<img alt="A chess piece" src="/src/lib/{piece.slice(2)}" class="inline-block piece" />
+			<img alt="A chess piece" src="/src/lib{piece.slice(1)}" class="inline-block piece" />
 		{/each}
 	</div>
 	<div id="trash" />
