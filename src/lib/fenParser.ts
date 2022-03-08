@@ -16,11 +16,7 @@ export function fenToArrayOfSquares(fenString: string): Output[] {
     if (match == null) throw new Error(`Invalid FEN string: '${fenString}'`);
     let output = [];
     match[1].split('/').forEach((x) => {
-        if (/\d+/.test(x)) {
-                output.push(...(Array(parseInt(x)).fill(undefined)));
-                return;
-        }
-        [...x.matchAll(/\d+|[a-zA-Z]/g)].forEach((c) => {
+        [...x.matchAll(/\d+|[a-zA-Z]/g)][0].forEach((c) => {
             if (/\d+/.test(c)) {
                 output.push(...(Array(parseInt(c)).fill(undefined)));
             } else {
