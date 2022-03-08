@@ -16,12 +16,16 @@ export function fenToArrayOfSquares(fenString: string): Output[] {
     if (match == null) throw new Error(`Invalid FEN string: '${fenString}'`);
     let output = [];
     match[1].split('/').forEach((x) => {
-        x.split(/(\d+|[a-zA-Z]+)/).forEach((c) => {
-            if (c === '') return
-            if (/\d+/.test(c)) {
-                output.push(...(Array(parseInt(c)).fill(undefined)))
+        if (/\d+/.test(x)) {
+                output.push(...(Array(parseInt(c)).fill(undefined)));
+                return;
+        }
+        x.split(/([0-1a-zA-Z])/).forEach((c) => {
+            if (c === '') return;
+            if (/\d/.test(c)) {
+                output.push(...(Array(parseInt(c)).fill(undefined)));
             } else {
-                output.push(...([...c].map((e) => { return { src: senToFileName(e), sen: e } })))
+                output.push(...([...c].map((e) => { return { src: senToFileName(e), sen: e } })));
             }
         })
     })
