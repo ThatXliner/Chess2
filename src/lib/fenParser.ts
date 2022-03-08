@@ -17,7 +17,7 @@ export function fenToArrayOfSquares(fenString: string): Output[] {
     let output = [];
     match[1].split('/').forEach((x) => {
         if (/\d+/.test(x)) {
-                output.push(...(Array(parseInt(c)).fill(undefined)));
+                output.push(...(Array(parseInt(x)).fill(undefined)));
                 return;
         }
         x.split(/([0-1a-zA-Z])/).forEach((c) => {
