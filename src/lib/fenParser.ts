@@ -1,33 +1,17 @@
-
-const SEN = {
-    "A": "wA",
-    "B": "wB",
-    "G": "wG",
-    "J": "wJ",
-    "K": "wK",
-    "L": "wL",
-    "N": "wN",
-    "P": "wP",
-    "Q": "wQ",
-    "R": "wR",
-    "W": "wW",
-    "a": "bA",
-    "b": "bB",
-    "g": "bG",
-    "j": "bJ",
-    "k": "bK",
-    "l": "bL",
-    "n": "bN",
-    "p": "bP",
-    "q": "bQ",
-    "r": "bR",
-    "w": "bW",
+let imported = import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')
+let SEN = {};
+for (let [key, value] of Object.entries(imported)) {
+    SEN[key.match(/(\w+)\.\w+$/)[1]] = value.default;
 }
+
 function senToFileName(senString: string): string {
-    return `/assets/pieces/${SEN[senString]}.png`;
+    // TODO: Make the pieces file name the sen name
+    let processed = senString.toUpperCase() == senString ? `w${senString}` : `b${senString.toUpperCase()}`
+    return SEN[processed];
 }
 export const FEN_RE = /([a-zA-Z1-9]+(?:\/[a-zA-Z1-9]+)*) ([wb]) ((?:K?Q?k?q?)|-) ((?:[a-z]\d+)|-) (\d+) (\d+)/
-export function fenToArrayOfSquares(fenString: string): string[] {
+type Output = { src: string, sen: string } | undefined
+export function fenToArrayOfSquares(fenString: string): Output[] {
     const match = fenString.match(FEN_RE);
     if (match == null) throw new Error(`Invalid FEN string: '${fenString}'`);
     let output = [];
@@ -37,7 +21,7 @@ export function fenToArrayOfSquares(fenString: string): string[] {
             if (/\d+/.test(c)) {
                 output.push(...(Array(parseInt(c)).fill(undefined)))
             } else {
-                output.push(...([...c].map(senToFileName)))
+                output.push(...([...c].map((e) => { return { src: senToFileName(e), sen: e } })))
             }
         })
     })

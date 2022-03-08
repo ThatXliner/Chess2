@@ -3,7 +3,6 @@ TODO:
  - Better alt for img
  - Fix out-of-board shadow bug
  - Use more Tailwind
- - Get images to work
  - Add logic
 -->
 <script>
@@ -13,11 +12,12 @@ TODO:
 	export let size = 16,
 		squareSize = 42,
 		boardState = null;
-	const PIECES = Object.keys(import.meta.glob('./assets/pieces/*.{png,svg,jpg}')); // TODO: manual
+	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
+		(e) => e.default
+	);
 	$: buildState = fenToArrayOfSquares(
 		boardState ?? `${size}/`.repeat(size).slice(0, -1) + ' w KQkq - 0 1'
 	);
-	$: console.log(boardState, buildState);
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
@@ -72,13 +72,7 @@ TODO:
 							temp.push(1);
 						}
 					} else {
-						let src = img.getAttribute('src');
-						src = src.slice(23, 25);
-						if (src[0] == 'w') {
-							temp.push(src[1].toUpperCase());
-						} else {
-							temp.push(src[1].toLowerCase());
-						}
+						temp.push(img.getAttribute('data-piece'));
 					}
 				});
 				buildBoardState.push(temp.join(''));
@@ -101,7 +95,12 @@ TODO:
 						class="square"
 					>
 						{#if buildMe != undefined}
-							<img alt="A chess piece" src="/src/lib{buildMe}" class="inline-block piece" />
+							<img
+								alt="A chess piece"
+								data-piece={buildMe.sen}
+								src={buildMe.src}
+								class="inline-block piece"
+							/>
 						{/if}
 					</div>
 				{/each}
@@ -114,7 +113,7 @@ TODO:
 	</div>
 	<div id="piece-tray">
 		{#each PIECES as piece}
-			<img alt="A chess piece" src="/src/lib{piece.slice(1)}" class="inline-block piece" />
+			<img alt="A chess piece" src={piece} class="inline-block piece" />
 		{/each}
 	</div>
 	<div id="trash" />

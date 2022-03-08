@@ -1,7 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 // import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
-import image from 'svelte-image';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -12,8 +11,7 @@ const config = {
 			scss: {
 				prependData: '@use "src/variables.scss" as *;'
 			}
-		}),
-		image()
+		})
 	],
 
 	kit: {
