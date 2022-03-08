@@ -25,7 +25,7 @@ export function fenToArrayOfSquares(fenString: string): Output[] {
             if (/\d/.test(c)) {
                 output.push(...(Array(parseInt(c)).fill(undefined)));
             } else {
-                output.push(...([...c].map((e) => { return { src: senToFileName(e), sen: e } })));
+                output.push({ src: senToFileName(c), sen: c });
             }
         })
     })
