@@ -20,8 +20,7 @@ export function fenToArrayOfSquares(fenString: string): Output[] {
                 output.push(...(Array(parseInt(x)).fill(undefined)));
                 return;
         }
-        x.split(/(\d+|[a-zA-Z])/).forEach((c) => {
-            if (c === '') return;
+        [...x.matchAll(/\d+|[a-zA-Z]/g)].forEach((c) => {
             if (/\d+/.test(c)) {
                 output.push(...(Array(parseInt(c)).fill(undefined)));
             } else {
