@@ -44,6 +44,7 @@ TODO:
 		chessboard.querySelectorAll('.square').forEach((e) => {
 			containers.push(e);
 		});
+		document.addEventListener('touchmove', function() { e.preventDefault(); }, { passive: false });  // https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
 		let drake = dragula.default(containers, {
 			copy: function (element, source) {
 				return source.id == 'piece-tray';
