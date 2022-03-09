@@ -12,7 +12,7 @@
 <main>
 	<Chessboard {size} bind:boardState={position} />
 	<label for="size">Chessboard size:</label>
-	<input class="input max-w-sm" id="size" type="number" bind:value={size} />
+	<input class="input max-w-sm" id="size" type="number" bind:value={size} min=1 max=26 />
 	<br />
 	<button
 		class="button is-primary"
