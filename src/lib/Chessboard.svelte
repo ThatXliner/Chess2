@@ -4,7 +4,7 @@ TODO:
  - Fix out-of-board shadow bug
  - Use more Tailwind
  - Add logic
- - ~~Fix moving e pawn bug (debug FEN)~~ TEMP FIX!
+ - Add save board feature
 -->
 <script>
 	import { onMount } from 'svelte';
@@ -128,7 +128,7 @@ TODO:
 	<div class="file-labels">
 		{#each FILES as file}<span>{file}</span>{/each}
 	</div>
-	<div id="piece-tray">
+	<div id="piece-tray" class="p-3">
 		{#each PIECES as piece}
 			<img alt="A chess piece" src={piece} class="inline-block piece" />
 		{/each}

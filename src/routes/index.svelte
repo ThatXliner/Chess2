@@ -11,8 +11,10 @@
 
 <main>
 	<Chessboard {size} bind:boardState={position} />
-	<label for="size">Chessboard size:</label>
-	<input class="input max-w-sm" id="size" type="number" bind:value={size} min="1" max="26" />
+	<div class="pb-2 pl-3">
+		<label for="size">Chessboard size:</label>
+		<input class="input max-w-sm" id="size" type="number" bind:value={size} min="1" max="26" />
+	</div>
 	<br />
 	<button
 		class="button is-primary"
@@ -26,4 +28,8 @@
 			position = null;
 		}}>Clear board</button
 	>
+	<footer class="p-5 text-center">
+		Made with <i>&#10084;</i> by
+		<a class="text-blue-400" href="https://github.com/ThatXliner"> @ThatXliner</a>
+	</footer>
 </main>
