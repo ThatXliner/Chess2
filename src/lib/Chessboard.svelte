@@ -16,9 +16,13 @@ TODO:
 	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
 		(e) => e.default
 	);
-	const buildState = fenToArrayOfSquares(
+	let buildState = fenToArrayOfSquares(  // Initial build
 		boardState ?? `${size}/`.repeat(size).slice(0, -1) + ' w KQkq - 0 1'
 	);
+	
+	$: if (boardState != null) {  // When boardState updates
+	       buildState = fenToArrayOfSquares(boardState);
+        }
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
