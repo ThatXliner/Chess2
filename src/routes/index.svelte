@@ -3,17 +3,17 @@
 
 <title>Chess 2 — Command. Control. Conquer.</title>
 <meta name="title" content="Chess 2 — Command. Control. Conquer.">
-<meta name="description" content="We have taking it up in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
+<meta name="description" content="We have took it in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Chess 2 — Command. Control. Conquer.">
-<meta property="og:description" content="We have taking it up in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
+<meta property="og:description" content="We have took it in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:title" content="Chess 2 — Command. Control. Conquer.">
-<meta property="twitter:description" content="We have taking it up in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
+<meta property="twitter:description" content="We have took it in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.">
 </svelte:head>
 <script>
 	import Chessboard from '$lib/Chessboard.svelte';
