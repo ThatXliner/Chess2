@@ -5,7 +5,6 @@ TODO:
  - Use more Tailwind
  - Add logic
  - ~~Fix moving e pawn bug (debug FEN)~~ TEMP FIX!
- - Fix stacking
 -->
 <script>
 	import { onMount } from 'svelte';
@@ -58,7 +57,6 @@ TODO:
 				return source.id == 'piece-tray';
 			},
 			removeOnSpill: true,
-			direction: 'horizontal',
 			ignoreInputTextSelection: true,
 			mirrorContainer: chessboard.querySelector('#trash'),
 			accepts: function (el, target, source, sibling) {
@@ -66,9 +64,9 @@ TODO:
 			}
 		});
 		drake.on('drop', (el, target, source, sibling) => {
-			// if (target.children.length > 1) {
-			// 	target.removeChild(target.children[1]);
-			// }
+			if (target.children.length > 1) {
+				target.removeChild(sibling);
+			}
 			boardState = null;
 			// let buildBoardState = [];
 			// chessboard.querySelectorAll('.rank').forEach((rank) => {
