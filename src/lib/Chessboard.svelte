@@ -4,6 +4,8 @@ TODO:
  - Fix out-of-board shadow bug
  - Use more Tailwind
  - Add logic
+ - ~~Fix moving e pawn bug (debug FEN)~~ TEMP FIX!
+ - Fix stacking
 -->
 <script>
 	import { onMount } from 'svelte';
@@ -15,7 +17,7 @@ TODO:
 	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
 		(e) => e.default
 	);
-	$: buildState = fenToArrayOfSquares(
+	const buildState = fenToArrayOfSquares(
 		boardState ?? `${size}/`.repeat(size).slice(0, -1) + ' w KQkq - 0 1'
 	);
 
@@ -44,7 +46,13 @@ TODO:
 		chessboard.querySelectorAll('.square').forEach((e) => {
 			containers.push(e);
 		});
-		document.addEventListener('touchmove', function() { e.preventDefault(); }, { passive: false });  // https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
+		document.addEventListener(
+			'touchmove',
+			function (e) {
+				e.preventDefault();
+			},
+			{ passive: false }
+		); // https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
 		let drake = dragula.default(containers, {
 			copy: function (element, source) {
 				return source.id == 'piece-tray';
@@ -58,27 +66,28 @@ TODO:
 			}
 		});
 		drake.on('drop', (el, target, source, sibling) => {
-			if (target.children.length > 1) {
-				target.removeChild(target.children[1]);
-			}
-			let buildBoardState = [];
-			chessboard.querySelectorAll('.rank').forEach((rank) => {
-				let temp = [];
-				rank.querySelectorAll('.square').forEach((square) => {
-					let img = square.querySelector('img');
-					if (img == undefined) {
-						if (typeof temp[temp.length - 1] === 'number') {
-							temp[temp.length - 1] += 1;
-						} else {
-							temp.push(1);
-						}
-					} else {
-						temp.push(img.getAttribute('data-piece'));
-					}
-				});
-				buildBoardState.push(temp.join(''));
-			});
-			boardState = buildBoardState.join('/') + ' w KQkq - 0 1';
+			// if (target.children.length > 1) {
+			// 	target.removeChild(target.children[1]);
+			// }
+			boardState = null;
+			// let buildBoardState = [];
+			// chessboard.querySelectorAll('.rank').forEach((rank) => {
+			// 	let temp = [];
+			// 	rank.querySelectorAll('.square').forEach((square) => {
+			// 		let img = square.querySelector('img');
+			// 		if (img == undefined) {
+			// 			if (typeof temp[temp.length - 1] === 'number') {
+			// 				temp[temp.length - 1] += 1;
+			// 			} else {
+			// 				temp.push(1);
+			// 			}
+			// 		} else {
+			// 			temp.push(img.getAttribute('data-piece'));
+			// 		}
+			// 	});
+			// 	buildBoardState.push(temp.join(''));
+			// });
+			// boardState = buildBoardState.join('/') + ' w KQkq - 0 1';
 		});
 	});
 </script>
