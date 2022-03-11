@@ -34,6 +34,7 @@ TODO:
 	$: FILES = Array.from(Array(size).keys()).map((_, i) => ALPHABET[i]);
 
 	let chessboard;
+	let scrollable = true;
 
 	onMount(async () => {
 		chessboard.style.setProperty('--size', `${squareSize}px`);
@@ -48,7 +49,9 @@ TODO:
 		document.addEventListener(
 			'touchmove',
 			function (e) {
-				e.preventDefault();
+				if (!scrollable) {
+					e.preventDefault();
+				}
 			},
 			{ passive: false }
 		); // https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
@@ -62,6 +65,12 @@ TODO:
 			accepts: function (el, target, source, sibling) {
 				return target.classList.contains('square');
 			}
+		});
+		drake.on('drag', function () {
+			scrollable = false;
+		});
+		drake.on('dragend', function () {
+			scrollable = true;
 		});
 		drake.on('drop', (el, target, source, sibling) => {
 			if (target.children.length > 1) {
