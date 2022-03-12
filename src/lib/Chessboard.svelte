@@ -5,24 +5,20 @@ TODO:
  - Use more Tailwind
  - Add logic
  - Add save board feature
+ - Piece/movement history
 -->
 <script>
 	import { onMount } from 'svelte';
-	import { fenToArrayOfSquares } from './fenParser.ts';
+	import { strToArrayOfSquares } from './fenParser.ts';
 
 	export let size = 16,
 		squareSize = 42,
-		boardState = null;
+		position = null;
+
 	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
 		(e) => e.default
 	);
-	let buildState = fenToArrayOfSquares(  // Initial build
-		boardState ?? `${size}/`.repeat(size).slice(0, -1) + ' w KQkq - 0 1'
-	);
-	
-	$: if (boardState != null) {  // When boardState updates
-	       buildState = fenToArrayOfSquares(boardState);
-        }
+	$: buildState = position == null ? [...Array(size * size)] : strToArrayOfSquares(position);
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
@@ -51,21 +47,23 @@ TODO:
 			containers.push(e);
 		});
 		document.addEventListener(
+			// https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
 			'touchmove',
 			function (e) {
-				if (!scrollable) {
-					e.preventDefault();
-				}
+				if (!scrollable) e.preventDefault();
 			},
 			{ passive: false }
-		); // https://github.com/bevacqua/dragula/issues/487#issuecomment-383857371
+		);
+
 		let drake = dragula.default(containers, {
 			copy: function (element, source) {
+				// Only copy if it's coming from the tray
 				return source.id == 'piece-tray';
 			},
 			removeOnSpill: true,
 			ignoreInputTextSelection: true,
 			mirrorContainer: chessboard.querySelector('#trash'),
+			// TODO: Add Chess logic to moves() and accepts()
 			accepts: function (el, target, source, sibling) {
 				return target.classList.contains('square');
 			}
@@ -77,28 +75,24 @@ TODO:
 			scrollable = true;
 		});
 		drake.on('drop', (el, target, source, sibling) => {
+			// IMPLEMENT MOVEMENT HISTORY HERE
 			if (target.children.length > 1) {
 				target.removeChild(sibling);
 			}
-			boardState = null;
-			// let buildBoardState = [];
-			// chessboard.querySelectorAll('.rank').forEach((rank) => {
-			// 	let temp = [];
-			// 	rank.querySelectorAll('.square').forEach((square) => {
-			// 		let img = square.querySelector('img');
-			// 		if (img == undefined) {
-			// 			if (typeof temp[temp.length - 1] === 'number') {
-			// 				temp[temp.length - 1] += 1;
-			// 			} else {
-			// 				temp.push(1);
-			// 			}
-			// 		} else {
-			// 			temp.push(img.getAttribute('data-piece'));
-			// 		}
-			// 	});
-			// 	buildBoardState.push(temp.join(''));
-			// });
-			// boardState = buildBoardState.join('/') + ' w KQkq - 0 1';
+			let output = [];
+			chessboard.querySelectorAll('.square').forEach(function (e) {
+				let img = e.querySelector('img');
+				if (img === null) {
+					if (typeof output[output.length - 1] === 'number') {
+						output[output.length - 1] += 1;
+					} else {
+						output.push(1);
+					}
+				} else {
+					output.push(img.getAttribute('data-piece'));
+				}
+			});
+			position = `${size} ` + output.join('');
 		});
 	});
 </script>
@@ -108,7 +102,7 @@ TODO:
 		{#each RANKS as rank}
 			<div data-rank={rank} class="rank">
 				{#each FILES as file, i}
-					{@const buildMe = buildState.shift()}
+					{@const buildMe = buildState[size * (size - rank) + i]}
 					<div
 						id="{file}{rank}"
 						class:light-square={i % 2 == rank % 2}
@@ -118,7 +112,7 @@ TODO:
 						{#if buildMe != undefined}
 							<img
 								alt="A chess piece"
-								data-piece={buildMe.sen}
+								data-piece={buildMe.san}
 								src={buildMe.src}
 								class="inline-block piece"
 							/>
@@ -141,6 +135,9 @@ TODO:
 </div>
 
 <style>
+	img {
+		user-select: none;
+	}
 	.rank::before {
 		content: attr(data-rank);
 		width: 2rem;

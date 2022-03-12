@@ -1,28 +1,27 @@
 let imported = import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')
-let SEN = {};
+let SAN = {};
 for (let [key, value] of Object.entries(imported)) {
-    SEN[key.match(/(\w+)\.\w+$/)[1]] = value.default;
+    SAN[key.match(/(\w+)\.\w+$/)[1]] = value.default;
 }
 
-function senToFileName(senString: string): string {
-    // TODO: Make the pieces file name the sen name
-    let processed = senString.toUpperCase() == senString ? `w${senString}` : `b${senString.toUpperCase()}`
-    return SEN[processed];
+function sanToFileName(sanString: string): string {
+    // TODO: Make the pieces file name the san name
+    let processed = sanString.toUpperCase() == sanString ? `w${sanString}` : `b${sanString.toUpperCase()}`
+    return SAN[processed];
 }
-export const FEN_RE = /([a-zA-Z1-9]+(?:\/[a-zA-Z1-9]+)*) ([wb]) ((?:K?Q?k?q?)|-) ((?:[a-z]\d+)|-) (\d+) (\d+)/
-type Output = { src: string, sen: string } | undefined
-export function fenToArrayOfSquares(fenString: string): Output[] {
-    const match = fenString.match(FEN_RE);
-    if (match == null) throw new Error(`Invalid FEN string: '${fenString}'`);
+// export const FEN_RE = /([a-zA-Z1-9]+(?:\/[a-zA-Z1-9]+)*) ([wb]) ((?:K?Q?k?q?)|-) ((?:[a-z]\d+)|-) (\d+) (\d+)/
+type Output = { src: string, san: string } | undefined
+export function strToArrayOfSquares(str: string): Output[] {
+    // Format:
+    // DIMENSION SQUARES
+    let [_, x] = str.split(' ');
     let output = [];
-    match[1].split('/').forEach((x) => {
-        [...x.match(/\d+|[a-zA-Z]/g)].forEach((c) => {
-            if (/\d+/.test(c)) {
-                output.push(...(Array(parseInt(c)).fill(undefined)));
-            } else {
-                output.push({ src: senToFileName(c), sen: c });
-            }
-        })
+    [...x.match(/\d+|[a-zA-Z]/g)].forEach((c) => {
+        if (/\d+/.test(c)) {
+            output.push(...(Array(parseInt(c)).fill(undefined)));
+        } else {
+            output.push({ src: sanToFileName(c), san: c });
+        }
     })
     return output
 }
