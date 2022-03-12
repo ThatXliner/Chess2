@@ -1,8 +1,7 @@
 <script>
 	import Chessboard from '$lib/Chessboard.svelte';
 	let size = 16;
-	const INITIAL_POSITION =
-		'16 rabnljwqkwjlnbarppppggppppggpppp4gg4gg168GG4GG4PPPPGGPPPPGGPPPPRABNLJWQKWJLNBAR';
+	const INITIAL_POSITION = `${size} rabnljwqkwjlnbarppppggppppggpppp4gg4gg168GG4GG4PPPPGGPPPPGGPPPPRABNLJWQKWJLNBAR`;
 	let position = INITIAL_POSITION;
 </script>
 
