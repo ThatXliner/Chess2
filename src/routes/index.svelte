@@ -33,8 +33,7 @@
 </svelte:head>
 
 <main>
-	<Chessboard {size} bind:position />
-
+	<div class="flex justify-center w-full pt-3"><Chessboard {size} bind:position /></div>
 	<div class="pb-2 pl-3">
 		<label for="size">Chessboard size:</label>
 		<input class="input max-w-sm" id="size" type="number" bind:value={size} min="1" max="26" />
@@ -54,6 +53,6 @@
 	>
 	<footer class="p-5 text-center">
 		Made with <i>&#10084;</i> by
-		<a class="text-blue-400" href="https://github.com/ThatXliner"> @ThatXliner</a>
+		<a class="text-link" href="https://github.com/ThatXliner"> @ThatXliner</a>
 	</footer>
 </main>

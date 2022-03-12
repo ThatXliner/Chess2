@@ -2,9 +2,7 @@
 TODO:
  - Better alt for img
  - Fix out-of-board shadow bug
- - Use more Tailwind
  - Add logic
- - Add save board feature
  - Piece/movement history
 -->
 <script>
@@ -105,8 +103,8 @@ TODO:
 					{@const buildMe = buildState[size * (size - rank) + i]}
 					<div
 						id="{file}{rank}"
-						class:light-square={i % 2 == rank % 2}
-						class:dark-square={i % 2 != rank % 2}
+						class:bg-peach={i % 2 == rank % 2}
+						class:bg-brown={i % 2 != rank % 2}
 						class="square"
 					>
 						{#if buildMe != undefined}
@@ -123,8 +121,8 @@ TODO:
 		{/each}
 	</div>
 
-	<div class="file-labels">
-		{#each FILES as file}<span>{file}</span>{/each}
+	<div class="flex flex-wrap before:content-[''] before:pr-8">
+		{#each FILES as file}<span class="label">{file}</span>{/each}
 	</div>
 	<div id="piece-tray" class="p-3">
 		{#each PIECES as piece}
@@ -155,21 +153,8 @@ TODO:
 		border-color: black;
 		border-width: 2px;
 	}
-	.light-square {
-		background-color: #f0d9b5;
-	}
-	.dark-square {
-		background-color: #b58863;
-	}
-	.file-labels {
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.file-labels::before {
-		content: '';
-		padding-right: 2rem;
-	}
-	.file-labels > span {
+
+	.label {
 		display: inline-block;
 		padding: calc(var(--size) / var(--dimension));
 		width: var(--size);
