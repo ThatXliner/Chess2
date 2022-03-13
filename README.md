@@ -3,14 +3,14 @@
 We have took it up in our own hands to update chess. Introducing Chess 2, a novel twist to the thousand-year-old game. With fascinating new pieces like the wizard and giant, you are sure to have fun playing this remix.
 
 TODO:
- - More tailwindcss
+ - More TailwindCSS
  - Docs on new pieces
  - Docs on board notation
  - Make chessboard.svelte a seperate npm package
 
 ## What changed?
 
-Chess 2 inherits all the rules and pieces from chess EXCEPT
+Chess 2 inherits all the rules and pieces from chess EXCEPT the following:
 
 ## New pieces
 
@@ -34,11 +34,23 @@ Yep, a **plus-shaped splash**.
 
 **NOTE: Name subject to change**
 
-The warlock moves like a wizard (they're synonyms!) but when it takes a piece, the warlock **has to** move like the piece.
+The warlock moves like a wizard (they're synonyms!) but when it takes a piece, the warlock **has to** move/attack like the piece it took.
 
 On a physical chess board, this storage might be implemented as stacking the warlock on top of the last taken piece.
 
-### Ninja
+<details>
+
+<summary>Thought process</summary>
+
+Having a piece that can turn into pieces it pretty OP. So the nerf is this:
+
+ - **Forced to** "turn" into the piece
+
+This helps you do stuff like protect your powerful pieces like the [archer](#archer-a) or the queen with pieces like the pawn.
+
+</details>
+
+### Ninja (J)
 
 The ninja is swift, sneaky, and a big coward.
 
@@ -52,18 +64,25 @@ For example, if the ninja takes the pawn
 
 it can also choose to take the queen or the rook or both.
 
-
 But since it is a coward, it **cannot** chain to a king. So in this position, the king is not in danger since the ninja may only take the rook (and the bishop as well if desired):
 
 ![Figure 4](./docs/images/figure_4.png)
 
-### Archer
+<details>
 
-The archer snipes pieces from a distance.
+<summary>Thought process</summary>
 
-TODO: explain
+Ninja is probably one of my favorite pieces. It can chain which allows for practically annihilating rows of undeveloped pieces (if it can get there in time). Having it chain up to 2 is quite a nerf although we might reduce it even more if it still deems too strong.
 
-### Giant
+</details>
+
+### Archer (A)
+
+The archer snipes pieces from a distance. It doesn't move to take the piece. It attacks like a rook.
+
+But then, how *does* it move? **Like a king**. It also cannot take pieces 1 square diagonal to it.
+
+### Giant (G)
 
 TODO: explain
 
