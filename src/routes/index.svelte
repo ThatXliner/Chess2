@@ -53,6 +53,6 @@
 	>
 	<footer class="p-5 text-center">
 		Made with <i>&#10084;</i> by
-		<a class="text-link" href="https://github.com/ThatXliner"> @ThatXliner</a>
+		<a class="text-link" href="https://github.com/ThatXliner"> @ThatXliner</a> | <a class="text-link" href="https://github.com/ThatXliner/chess2">Github Repository</a>
 	</footer>
 </main>
