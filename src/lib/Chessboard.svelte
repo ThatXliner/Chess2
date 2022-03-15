@@ -17,7 +17,8 @@ TODO:
 	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
 		(e) => e.default
 	);
-	$: buildState = position == null ? [...Array(size * size)] : convert(position);
+	$: if (position === null) {position = `${size} ${size * size}`}
+	$: buildState = convert(position);
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
