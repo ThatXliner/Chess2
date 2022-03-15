@@ -1,13 +1,15 @@
 <script>
 	import Chessboard from '$lib/Chessboard.svelte';
 	let size = 16;
+	$: if (size > 26) {size = 26}
+	$: if (size < 1) {size = 1}
 	const INITIAL_POSITION = `${size} rabnljwqkwjlnbarppppggppppggpppp4gg4gg168GG4GG4PPPPGGPPPPGGPPPPRABNLJWQKWJLNBAR`;
 	let position = INITIAL_POSITION;
 	let history = [];
 </script>
 
 <svelte:head>
-	<!-- Primary Meta Tags -->
+	<!-- Primary Meta Tags. TODO: use svelte-seo -->
 
 	<title>Chess 2 — Command. Control. Conquer.</title>
 	<meta name="title" content="Chess 2 — Command. Control. Conquer." />
