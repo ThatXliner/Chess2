@@ -86,24 +86,24 @@ TODO:
 			// TODO Figure history thing for giant
 			if (target.children.length > 1) {
 				target.removeChild(sibling);
-				if (el === null) return;
-				if (el.getAttribute('data-piece').toLowerCase() == 'p') {
-					addToHistory(`${source.id[0].toLowerCase()}x${target.id.toLowerCase()}`);
-				} else {
-					addToHistory(
-						`${el
-							.getAttribute('data-piece')
-							.toUpperCase()}${source.id.toLowerCase()}x${target.id.toLowerCase()}`
-					);
-				}
+				//if (el === null) return;
+				//if (el.getAttribute('data-piece').toLowerCase() == 'p') {
+				//	addToHistory(`${source.id[0].toLowerCase()}x${target.id.toLowerCase()}`);
+				//} else {
+				//	addToHistory(
+				//		`${el
+				//			.getAttribute('data-piece')
+				//			.toUpperCase()}${source.id.toLowerCase()}x${target.id.toLowerCase()}`
+				//	);
+				//}
 			}
-			if (el !== null) {
-				if (el.getAttribute('data-piece').toLowerCase() == 'p') {
-					addToHistory(target.id.toLowerCase());
-				} else {
-					addToHistory(`${el.getAttribute('data-piece').toUpperCase()}${target.id.toLowerCase()}`);
-				}
-			}
+			//if (el !== null) {
+			//	if (el.getAttribute('data-piece').toLowerCase() == 'p') {
+			//		addToHistory(target.id.toLowerCase());
+			//	} else {
+			//		addToHistory(`${el.getAttribute('data-piece').toUpperCase()}${target.id.toLowerCase()}`);
+			//	}
+			//}
 			let output = [];
 			chessboard.querySelectorAll('.square').forEach(function (e) {
 				let img = e.querySelector('img');
