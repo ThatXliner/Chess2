@@ -11,7 +11,7 @@ function sanToFileName(sanString: string): string {
 }
 // export const FEN_RE = /([a-zA-Z1-9]+(?:\/[a-zA-Z1-9]+)*) ([wb]) ((?:K?Q?k?q?)|-) ((?:[a-z]\d+)|-) (\d+) (\d+)/
 type Output = { src: string, san: string } | undefined
-export function strToArrayOfSquares(str: string): Output[] {
+export function convert(str: string): Output[] {
     // Format:
     // DIMENSION SQUARES
     let [_, x] = str.split(' ');

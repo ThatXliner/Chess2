@@ -7,16 +7,17 @@ TODO:
 -->
 <script>
 	import { onMount } from 'svelte';
-	import { strToArrayOfSquares } from './fenParser.ts';
+	import { convert } from './parser.ts';
 
 	export let size = 16,
 		squareSize = 42,
-		position = null;
+		position = null,
+		history = [];
 
 	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
 		(e) => e.default
 	);
-	$: buildState = position == null ? [...Array(size * size)] : strToArrayOfSquares(position);
+	$: buildState = position == null ? [...Array(size * size)] : convert(position);
 
 	if (size > 26) {
 		throw new Error('Size is too big (must be between 1 and 26)');
@@ -33,6 +34,15 @@ TODO:
 
 	let chessboard;
 	let scrollable = true;
+
+	function addToHistory(item) {
+		let last = history[history.length - 1];
+		if (Array.isArray(last) && last.length == 1) {
+			history = [...history.slice(0, -1), [last[0], item]];
+		} else {
+			history = [...history, [item]];
+		}
+	}
 
 	onMount(async () => {
 		chessboard.style.setProperty('--size', `${squareSize}px`);
@@ -73,9 +83,26 @@ TODO:
 			scrollable = true;
 		});
 		drake.on('drop', (el, target, source, sibling) => {
-			// IMPLEMENT MOVEMENT HISTORY HERE
+			// TODO Figure history thing for giant
 			if (target.children.length > 1) {
 				target.removeChild(sibling);
+				if (el === null) return;
+				if (el.getAttribute('data-piece').toLowerCase() == 'p') {
+					addToHistory(`${source.id[0].toLowerCase()}x${target.id.toLowerCase()}`);
+				} else {
+					addToHistory(
+						`${el
+							.getAttribute('data-piece')
+							.toUpperCase()}${source.id.toLowerCase()}x${target.id.toLowerCase()}`
+					);
+				}
+			}
+			if (el !== null) {
+				if (el.getAttribute('data-piece').toLowerCase() == 'p') {
+					addToHistory(target.id.toLowerCase());
+				} else {
+					addToHistory(`${el.getAttribute('data-piece').toUpperCase()}${target.id.toLowerCase()}`);
+				}
 			}
 			let output = [];
 			chessboard.querySelectorAll('.square').forEach(function (e) {

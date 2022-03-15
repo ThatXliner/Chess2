@@ -1,16 +1,6 @@
-/* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */ /* Import only what you need from Bulma */
-@import 'bulma/sass/utilities/_all';
-@import 'bulma/sass/base/_all';
-@import 'bulma/sass/elements/_all';
-@import 'bulma/sass/form/_all';
-@import 'bulma/sass/components/_all';
-@import 'bulma/sass/grid/_all';
-@import 'bulma/sass/helpers/_all';
-@import 'bulma/sass/layout/_all';
+@import "../node_modules/bulma/bulma"; // Bulma CSS framework
+@import '../node_modules/dragula/dist/dragula.css'; // Dragula custom CSS
 
-/* Write your global styles here, in PostCSS syntax */
-
-@import '../node_modules/dragula/dist/dragula.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
