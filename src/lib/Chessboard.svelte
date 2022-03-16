@@ -15,7 +15,7 @@ TODO:
 		history = [];
 
 	const PIECES = Object.entries(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
-		(k, v) => {
+		([k, v]) => {
 			let name = k.match(/(\w+)\.\w+$/)[1]
 			return { src: v.default, san: name[0] === "w" ? name[1].toUpperCase() : name[1].toLowerCase() }
 		}
