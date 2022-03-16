@@ -136,12 +136,14 @@ TODO:
 						class="square"
 					>
 						{#if buildMe != undefined}
-							<img
-								alt="A chess piece"
-								data-piece={buildMe.san}
-								src={buildMe.src}
-								class="inline-block piece"
-							/>
+							<div>
+								<img
+									alt="A chess piece"
+									data-piece={buildMe.san}
+									src={buildMe.src}
+									class="inline-block piece"
+								/>
+							</div>
 						{/if}
 					</div>
 				{/each}
