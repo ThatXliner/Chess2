@@ -142,12 +142,12 @@ TODO:
 						class="square"
 					>
 						{#if buildMe != undefined}
-							<div>
+							<div class="inline-block">
 								<img
 									alt="A chess piece"
 									data-piece={buildMe.san}
 									src={buildMe.src}
-									class="inline-block piece"
+									class="piece"
 								/>
 							</div>
 						{/if}
@@ -162,7 +162,7 @@ TODO:
 	</div>
 	<div id="piece-tray" class="p-3">
 		{#each PIECES as piece}
-		    <div><img alt="A chess piece" data-piece={piece.san} src={piece.src} class="inline-block piece" /></div>
+		    <div class="inline-block"><img alt="A chess piece" data-piece={piece.san} src={piece.src} class="piece" /></div>
 		{/each}
 	</div>
 	<div id="trash" />
