@@ -14,8 +14,11 @@ TODO:
 		position = null,
 		history = [];
 
-	const PIECES = Object.values(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
-		(e) => e.default
+	const PIECES = Object.entries(import.meta.globEager('./assets/pieces/*.{png,svg,jpg}')).map(
+		(k, v) => {
+			let name = k.match(/(\w+)\.\w+$/)[1]
+			return { src: v.default, san: name[0] === "w" ? name[1].toUpperCase() : name[1].toLowerCase() }
+		}
 	);
 	$: if (position === null) {position = `${size} ${size * size}`}
 	$: buildState = convert(position);
@@ -70,9 +73,12 @@ TODO:
 				return source.id == 'piece-tray';
 			},
 			removeOnSpill: true,
-			ignoreInputTextSelection: true,
 			mirrorContainer: chessboard.querySelector('#trash'),
 			// TODO: Add Chess logic to moves() and accepts()
+			// Also change so trash is a container if:
+			//   Make removeOnSpill false and revertOnSpill true
+			//   That way we can use dragula.cancel in on=>drop??
+			// - Only if ^ works
 			accepts: function (el, target, source, sibling) {
 				return target.classList.contains('square');
 			}
@@ -156,7 +162,7 @@ TODO:
 	</div>
 	<div id="piece-tray" class="p-3">
 		{#each PIECES as piece}
-			<img alt="A chess piece" src={piece} class="inline-block piece" />
+		    <div><img alt="A chess piece" data-piece={piece.san} src={piece.src} class="inline-block piece" /></div>
 		{/each}
 	</div>
 	<div id="trash" />
