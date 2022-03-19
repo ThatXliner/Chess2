@@ -75,7 +75,6 @@
 						window.alert('Could not copy to clipboard');
 					}
 				);
-				position = INITIAL_POSITION;
 			}}>Save board position</button
 		>
 	</div>
