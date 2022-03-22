@@ -16,7 +16,7 @@ Chess 2 inherits all the rules and pieces from chess EXCEPT the following:
 
 ### Wizard (W)
 
-The wizard moves like a bishop + moving up or down 1 square.
+The wizard moves like a king + bishop.
 
 It can do splash damage when it attacks a piece.
 
@@ -56,9 +56,11 @@ The ninja is swift, sneaky, and a big coward.
 
 It moves like a bishop.
 
-When a ninja takes a piece, it may choose to chain up to 2 other pieces adjacent to the piece it took.
+When a ninja takes a piece, it may choose to chain up to 2 other pieces adjacent to the piece it took, **in that direction**
 
 For example, if the ninja takes the pawn
+
+**TODO: Update images**
 
 ![Figure 3](./docs/images/figure_3.png)
 
