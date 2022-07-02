@@ -17,6 +17,8 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: { base: '/chess2' },
+		// For some weird reason, we need this. ThatXliner/school doesn't...
+		prerender: { default: true},
 
 		vite: {
 			css: {
