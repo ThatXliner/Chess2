@@ -17,7 +17,6 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: { base: '/chess2' },
-		prerender: { default: true },
 
 		vite: {
 			css: {
